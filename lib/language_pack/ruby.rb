@@ -79,6 +79,11 @@ WARNING
     end
   end
 
+  def get_git_sha
+    sha = `git log -1 --format="%H"`
+    ENV['GIT_SHA'] = sha
+  end
+
   def compile
     # check for new app at the beginning of the compile
     new_app?
@@ -101,6 +106,7 @@ WARNING
       create_database_yml
       install_binaries
       run_assets_precompile_rake_task
+      get_git_sha
     end
     config_detect
     best_practice_warnings
